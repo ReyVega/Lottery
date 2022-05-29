@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import { useState, useEffect } from 'react'
 import Web3 from 'web3'
 import Head from 'next/head'
+import lotteryContract from '../blockchain/lottery'
 import styles from '../styles/Home.module.css'
 import "bulma/css/bulma.css"
 
