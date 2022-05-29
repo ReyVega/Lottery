@@ -1,3 +1,14 @@
+.bg {
+  background-color: #ECEFF4;
+}
+
+.navbar {
+    background-color: #4C566A;
+    min-height: 3.25rem;
+    position: relative;
+    z-index: 30;
+}
+
 .main {
   min-height: 100vh;
 }
@@ -5,7 +16,7 @@
 .main h1 {
   font-size: 3em;
   font-weight: bold;
-  color: black;
+  color: white;
 }
 
 .description {
@@ -21,6 +32,8 @@
   border-top: 1px solid #eaeaea;
   justify-content: center;
   align-items: center;
+  background-color: #3B4252;
+  color: white;
 }
 
 .footer a {

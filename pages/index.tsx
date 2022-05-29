@@ -149,15 +149,15 @@ const Home: NextPage = () => {
   }
 
   return (
-    <div>
+    <div className={styles.bg}>
       <Head>
         <title>Ether Lottery</title>
-        <meta name="description" content="An Ethereum Lottery dApp" />
+        <meta name="description" content="An Ethereum Lottery App" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className={styles.main}>
-        <nav className="navbar mt-4 mb-4">
+        <nav className={styles.navbar}>
           <div className="container">
             <div className="navbar-brand">
               <h1>Ether Lottery</h1>
@@ -255,7 +255,7 @@ const Home: NextPage = () => {
       </main>
 
       <footer className={styles.footer}>
-        <p>&copy; 2022 Block Explorer</p>
+        <p>&copy; 2022 Lottery</p>
       </footer>
     </div>
   )
