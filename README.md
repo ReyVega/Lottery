@@ -12,6 +12,9 @@ This repo includes the frontend of the application, which can be used to bet eth
 6. Solidity - Programming Language for smart-contracts
 7. Truffle - Framework for deploying smart-contracts
 
+## Main page structure
+[index.tsx](https://github.com/ReyVega/Lottery/blob/main/pages/index.tsx)
+
 ## Important things to take into consideration
 1. Change smart-contract's address with yours within ./blockchain/lottery.js
 
