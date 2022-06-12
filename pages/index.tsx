@@ -1,3 +1,4 @@
+// Libraries and components used
 import type { NextPage } from 'next'
 import { useState, useEffect } from 'react'
 import Web3 from 'web3'
@@ -6,15 +7,19 @@ import lotteryContract from '../blockchain/lottery'
 import styles from '../styles/Home.module.css'
 import "bulma/css/bulma.css"
 
+// Window variable
 declare const window: any;
 
+// Interface to store lotteryId and winner's address
 interface historyObj {
   id: number;
   address: string;
 }
 
+// Home page
 const Home: NextPage = () => {
 
+  // Hooks used
   const [web3, setWeb3] = useState<any>()
   const [address, setAddress] = useState<string>()
   const [lcContract, setLcContract] = useState<any>()
@@ -25,26 +30,31 @@ const Home: NextPage = () => {
   const [error, setError] = useState<string>()
   const [successMsg, setSuccessMsg] = useState<string>()
 
+  // Hook to update smart contract's state after rendering page
   useEffect(() => {
     updateState()
   }, [lcContract])
 
+  // Update all variables of smart contract
   const updateState = () => {
     if (lcContract) getPot()
     if (lcContract) getPlayers()
     if (lcContract) getLotteryId()
   }
 
+  // Get current balance of all the players bettings
   const getPot = async () => {
     const pot = await lcContract.methods.getBalance().call()
     setLotteryPot(web3.utils.fromWei(pot, 'ether'))
   }
 
+  // Get all the current players playing
   const getPlayers = async () => {
     const players = await lcContract.methods.getPlayers().call()
     setPlayers(players)
   }
 
+  // Get all the winners from previous lotteries
   const getHistory = async (id: string) => {
     setLotteryHistory([])
     for (let i = parseInt(id); i > 0; i--) {
@@ -56,12 +66,14 @@ const Home: NextPage = () => {
     }
   }
 
+  // Get current lotteryId
   const getLotteryId = async () => {
     const lotteryId = await lcContract.methods.lotteryId().call()
     setLotteryId(lotteryId)
     await getHistory(lotteryId)
   }
 
+  // Render player's name if the player could enter the lottery
   const enterLotteryHandler = async () => {
     setError("")
     setSuccessMsg("")
@@ -78,6 +90,7 @@ const Home: NextPage = () => {
     }
   }
 
+  // Pick winner from lottery
   const pickWinnerHandler = async () => {
     setError("")
     setSuccessMsg("")
@@ -93,6 +106,7 @@ const Home: NextPage = () => {
     }
   }
 
+  // Transfer the total balance to the winner
   const payWinnerHandler = async () => {
     setError("")
     setSuccessMsg("")
@@ -111,43 +125,49 @@ const Home: NextPage = () => {
     }
   }
 
+  // Connect MetaMask wallet
   const connectWalletHandler = async () => {
     setError("")
     setSuccessMsg("")
 
-    /* check if MetaMask is installed */
+    // Check if MetaMask is installed
     if (typeof window !== "undefined" && typeof window.ethereum !== "undefined") {
       try {
-        /* request wallet connection */
+        // Request wallet connection
         await window.ethereum.request({ method: "eth_requestAccounts"})
-        /* create web3 instance & set to state */
+
+        // Create web3 instance and set to state
         const web3 = new Web3(window.ethereum)
-        /* set web3 instance in React state */
+
+        // Set web3 instance in React state
         setWeb3(web3)
-        /* get list of accounts */
+
+        // Get list of MetaMask accounts
         const accounts = await web3.eth.getAccounts()
-        /* set account 1 to React state */
+
+        // Set account 1 to React state
         setAddress(accounts[0])
 
-        /* create local contract copy */
+        // Create local contract copy
         const lc = lotteryContract(web3)
         setLcContract(lc)
 
         window.ethereum.on('accountsChanged', async () => {
           const accounts = await web3.eth.getAccounts()
           console.log(accounts[0])
-          /* set account 1 to React state */
+          // Set account 1 to React state
           setAddress(accounts[0])
         })
       } catch(err: any) {
         setError(err.message)
       }
     } else {
-      /* MetaMask is not installed */
+      // MetaMask is not installed
       console.log("Please install MetaMask")
     }
   }
 
+  // Frontend of the home page
   return (
     <div className={styles.bg}>
       <Head>
